@@ -1,0 +1,103 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: User API
+basePath: /api
+tags:
+  - name: usermanagement
+schemes:
+  - https
+paths:
+  '/users':
+    get:
+      tags:
+        - usermanagement
+      operationId: listUsers
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/user"
+           
+    
+  '/user':
+    post:
+      tags:
+        - usermanagement
+      operationId: addUser
+      produces:
+        - application/json
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Access details"
+          required: true
+          schema:
+            $ref: "#/definitions/user"
+      responses:
+        '201':
+          description: Record Successfully added
+          schema:
+            $ref: '#/definitions/user'
+
+
+  '/user/{userid}':
+    delete:
+      tags:
+        - usermanagement
+      operationId: deleteUser
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: "userid"
+          description: "user id"
+          required: true
+          type: string
+      responses:
+        '200':
+          description: "Record Successfully Deleted"
+        '404':
+          description: "Record can not be foundL"
+          schema:
+              $ref: '#/definitions/error'
+ 
+definitions:
+  user:
+    type: object
+    properties:
+     userId:
+      type: string
+      format: uuid
+      example: 7c00bdb5-88f5-403d-a46a-278af334ef6b
+     userName:
+      type: string
+      example: john_user
+     emailAddress:
+      type: string
+      example: john@example.com
+     preferredPhoneNumber:
+      type: string
+      example: +353881234567
+      
+  error:
+    type: object
+    required:
+      - message
+    properties:
+      code:
+        type: integer
+        example: 10
+        format: int64
+      message:
+        type: string
+        example: object can not be found
+      
+      
+  
+
+ 
